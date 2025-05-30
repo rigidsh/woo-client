@@ -1,35 +1,32 @@
 package protocol
 
 import (
-	"bytes"
 	"slices"
 	"testing"
 )
 
-type FooPackageWriter struct {
-	buff          *bytes.Buffer
-	onPackageEnd  func(checksum bool, data []byte)
-	limitOnTarget int
+type limitPackageWriter struct {
+	target PackageWriter
+	limit  int
 }
 
-func NewFooPackageWriter(onPackageEnd func(checksum bool, data []byte), limitOnTarget int) *FooPackageWriter {
-	return &FooPackageWriter{onPackageEnd: onPackageEnd, limitOnTarget: limitOnTarget}
-}
-
-func (w *FooPackageWriter) PackageStart() {
-	w.buff = bytes.NewBuffer(make([]byte, 0, 1024))
-}
-
-func (w *FooPackageWriter) PackageEnd(checksum bool) {
-	w.onPackageEnd(checksum, w.buff.Bytes())
-}
-
-func (w *FooPackageWriter) Write(p []byte) (n int, err error) {
-	if w.limitOnTarget == -1 {
-		return w.buff.Write(p)
+func (l limitPackageWriter) Write(p []byte) (n int, err error) {
+	if l.limit != -1 {
+		return l.target.Write(p[0:l.limit])
 	}
+	return l.target.Write(p)
+}
 
-	return w.buff.Write(p[:w.limitOnTarget])
+func (l limitPackageWriter) PackageStart() {
+	l.target.PackageStart()
+}
+
+func (l limitPackageWriter) PackageEnd(checksum bool) {
+	l.target.PackageEnd(checksum)
+}
+
+func newLimitPackageWriter(limit int, target PackageWriter) *limitPackageWriter {
+	return &limitPackageWriter{target: target, limit: limit}
 }
 
 func TestNewPackageDecoder_empty_package(t *testing.T) {
@@ -64,14 +61,17 @@ func src(batch ...[]byte) srcParam {
 
 func successTest(srcData srcParam, expectedPackageData []byte, limitOnTarget int, t *testing.T) {
 	hasPackage := false
-	target := NewFooPackageWriter(func(checksum bool, data []byte) {
-		hasPackage = true
-		if !checksum {
-			t.Errorf("checksum is not correct")
-		}
+	target := newLimitPackageWriter(
+		limitOnTarget,
+		NewBufferPackageWriter(func(checksum bool, data []byte) {
+			hasPackage = true
+			if !checksum {
+				t.Errorf("checksum is not correct")
+			}
 
-		slices.Equal(data, expectedPackageData)
-	}, limitOnTarget)
+			slices.Equal(data, expectedPackageData)
+		}),
+	)
 
 	decoder := NewPackageDecoder(target)
 	for _, data := range srcData {

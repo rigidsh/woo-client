@@ -1,0 +1,58 @@
+# 89% battery
+RecordingEvent
+  Start: true
+  UnknownBytes1: 00
+  NumberOfEvents: 0
+  Counter: 18781312
+  UnknownBytes2: 00 00 f6 01
+RecordingEvent
+  Start: false
+  UnknownBytes1: 00
+  NumberOfEvents: 0
+  Counter: 18797824
+  UnknownBytes2: 00 00 f6 01
+RecordingEvent
+  Start: true
+  UnknownBytes1: 00
+  NumberOfEvents: 0
+  Counter: 18797824
+  UnknownBytes2: 00 00 f6 01
+# Height 2.0m; Airtime 1.2s 3.3G
+BigAirJumpEvent
+  JumpType: 2
+  JumpNumber: 0
+  UnknownBytes1: 00 f8 01 00 00 73 76 01 00 80 01 01 00 7d c2 fe ff 95 01 00 00 11 01 28 0f
+  JumpTime: 2025-05-31 18:28:56 +0000 UTC
+  UnknownBytes2: aa 0f 00 00 00 00 20 48 15 04 b8 13 c0 09
+# Height 1.5m; Airtime 1.0s 2.5G
+BigAirJumpEvent
+  JumpType: 2
+  JumpNumber: 1
+  UnknownBytes1: 00 4b 04 00 00 25 f4 01 00 80 38 01 00 b3 ed 02 00 7a 01 00 00 11 01 28 0f
+  JumpTime: 2025-05-31 18:29:02 +0000 UTC
+  UnknownBytes2: aa 0f 00 00 00 00 af 2f 76 00 66 16 50 0b
+RecordingEvent
+  Start: false
+  UnknownBytes1: 00
+  NumberOfEvents: 2
+  Counter: 18919296
+  UnknownBytes2: 00 00 f6 01
+RecordingEvent
+  Start: true
+  UnknownBytes1: 00
+  NumberOfEvents: 2
+  Counter: 18919296
+  UnknownBytes2: 00 00 f6 01
+# Height 2.0m; Airtime 1.2s 2.9G
+BigAirJumpEvent
+  JumpType: 2
+  JumpNumber: 2
+  UnknownBytes1: 00 02 01 00 00 35 03 02 00 00 31 01 00 b2 ff fb ff 6d 01 00 00 11 01 28 0f
+  JumpTime: 2025-05-31 18:29:17 +0000 UTC
+  UnknownBytes2: aa 0f 00 00 00 00 35 84 70 00 0f 17 0b 0d
+RecordingEvent
+  Start: false
+  UnknownBytes1: 00
+  NumberOfEvents: 3
+  Counter: 18983808
+  UnknownBytes2: 00 00 f6 01

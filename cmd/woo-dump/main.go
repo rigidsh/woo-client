@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bytes"
 	"flag"
 	"fmt"
 	"github.com/rigidsh/woo-client/pkg/protocol"
@@ -15,6 +16,7 @@ func main() {
 	addressFlag := flag.String("address", "", "Woo device address")
 	reconnectFlag := flag.Bool("reconnect", true, "auto reconnect")
 	dumpPathFlag := flag.String("dump", "", "dump file path")
+	rawDumpFlag := flag.Bool("raw", false, "dump raw data")
 
 	flag.Parse()
 
@@ -49,9 +51,23 @@ func main() {
 	}
 
 	decoder := protocol.NewPackageDecoder(protocol.NewBufferPackageWriter(func(checksum bool, data []byte) {
-		log.Printf("New package(checksum %t): % x", checksum, data)
+
+		var dumpRow string
+		if *rawDumpFlag {
+			dumpRow = fmt.Sprintf("% x", data)
+		} else {
+			_, event, err := protocol.ReadEvent(bytes.NewReader(data))
+			if err != nil {
+				log.Printf("Error on read event: %s", err)
+				return
+			}
+			dumpRow = fmt.Sprintf("%s", event)
+		}
+
+		log.Printf("New package(checksum %t): \n %s", checksum, dumpRow)
+
 		if checksum && dumpWriter != nil {
-			_, _ = dumpWriter.Write([]byte(fmt.Sprintf("% x\n", data)))
+			_, _ = dumpWriter.Write([]byte(dumpRow))
 		}
 	}))
 

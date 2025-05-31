@@ -38,8 +38,10 @@ see [woo.dump](https://github.com/rigidsh/woo-client/blob/main/woo.dump) as an e
 |------------|------|------------------------------|
 | JumpType   | 1    | always 0x02                  |
 | JumpNumber | 1    | Event number after last sync |
-| Unknown    | 10   |                              |
-| JumpHeight | 2    | Unknown format               |
+| Unknown    | 6    |                              |
+| Landing    | 1    | ???Unknown format???         |
+| Unknown    | 3    |                              |
+| JumpHeight | 2    | ???Unknown format???         |
 | Unknown    | 13   |                              |
 | JumpTime   | 6    | Woo date/time format. in UTC |
 | Unknown    | 14   |                              |

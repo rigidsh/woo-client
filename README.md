@@ -24,7 +24,7 @@ see [woo.dump](https://github.com/rigidsh/woo-client/blob/main/woo.dump) as an e
 | Event          | Byte |
 |----------------|------|
 | RecordingEvent | 0x58 |
-| BigAirJumpType | 0x44 |
+| JumpEventType  | 0x44 |
 ### RecordingEvent
 | Field            | Size | Description                   |
 |------------------|------|-------------------------------|
@@ -33,11 +33,13 @@ see [woo.dump](https://github.com/rigidsh/woo-client/blob/main/woo.dump) as an e
 | Number of events | 2    | Events in memory              |
 | Counter          | 4    | ???                           |
 | Unknown          | 4    | always 0x00 0x00 0xF6 0x01    |
-### BigAirJumpEvent
+### JumpEvent
 | Field      | Size | Description                  |
 |------------|------|------------------------------|
 | JumpType   | 1    | always 0x02                  |
 | JumpNumber | 1    | Event number after last sync |
-| Unknown    | 25   |                              |
+| Unknown    | 10   |                              |
+| JumpHeight | 2    | Unknown format               |
+| Unknown    | 13   |                              |
 | JumpTime   | 6    | Woo date/time format. in UTC |
 | Unknown    | 14   |                              |

@@ -36,8 +36,8 @@ func TestReadEvent(t *testing.T) {
 			0x45, 0x08, 0x31, 0x05, 0x25, 0x8a, 0x11, 0x04, 0x00, 0x00,
 			0x00, 0x58, 0x6c, 0x66, 0x05, 0xad, 0x17, 0x32, 0x08,
 		},
-		BigAirJumpType,
-		&BigAirJumpEvent{
+		JumpEventType,
+		&JumpEvent{
 			JumpType:   0x02,
 			JumpNumber: 7,
 			JumpTime:   ToWooTime(time.Date(2025, 5, 31, 8, 45, 7, 0, time.UTC)),
@@ -57,8 +57,8 @@ func eventSuccessTest(name string, srcData []byte, expectedEvenType EventType, e
 		}
 
 		switch expectedEvenType {
-		case BigAirJumpType:
-			testBigAirEvent(event, expectedEvent, t)
+		case JumpEventType:
+			testJumpEvent(event, expectedEvent, t)
 		case RecordingEventType:
 			testRecordingEvent(event, expectedEvent, t)
 		}
@@ -82,19 +82,19 @@ func testRecordingEvent(testEvent interface{}, expectedEvent interface{}, t *tes
 	}
 }
 
-func testBigAirEvent(testEvent interface{}, expectedEvent interface{}, t *testing.T) {
-	event, ok := testEvent.(*BigAirJumpEvent)
+func testJumpEvent(testEvent interface{}, expectedEvent interface{}, t *testing.T) {
+	event, ok := testEvent.(*JumpEvent)
 	if !ok {
-		t.Errorf("event is not BigAirJumpEvent")
+		t.Errorf("event is not JumpEvent")
 		return
 	}
-	if event.JumpType != expectedEvent.(*BigAirJumpEvent).JumpType {
+	if event.JumpType != expectedEvent.(*JumpEvent).JumpType {
 		t.Errorf("jump type is not correct")
 	}
-	if event.JumpNumber != expectedEvent.(*BigAirJumpEvent).JumpNumber {
+	if event.JumpNumber != expectedEvent.(*JumpEvent).JumpNumber {
 		t.Errorf("jump number is not correct")
 	}
-	if event.JumpTime != expectedEvent.(*BigAirJumpEvent).JumpTime {
+	if event.JumpTime != expectedEvent.(*JumpEvent).JumpTime {
 		t.Errorf("jump time is not correct")
 	}
 }
